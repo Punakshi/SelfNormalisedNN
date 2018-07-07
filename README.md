@@ -1,8 +1,5 @@
-# SelfNormalisedNN
-Implementation of paper by Günter Klambauer, Thomas Unterthiner, Andreas Mayr- Purpose: Learning
-
 # Self-Normalizing Networks
-Implementations based on "Self-normalizing networks"(SNNs) as suggested by Günter Klambauer, Thomas Unterthiner, Andreas Mayr
+Implementations based on "Self-normalizing networks"(SNNs) as suggested by Günter Klambauer, Thomas Unterthiner, Andreas Mayr - Purpose: Learning
 
 ## KERAS CNN scripts:
 - KERAS: Convolutional Neural Network on MNIST
