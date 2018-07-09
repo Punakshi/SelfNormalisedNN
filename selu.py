@@ -15,27 +15,17 @@ from tensorflow.python.ops import array_ops
 from tensorflow.python.layers import utils
 import tensorflow as tf
 
-# (1) scale inputs to zero mean and unit variance
-
-
-# (2) use SELUs
 def selu(x):
     with ops.name_scope('elu') as scope:
         alpha = 1.6732632423543772848170429916717
         scale = 1.0507009873554804934193349852946
         return scale*tf.where(x>=0.0, x, alpha*tf.nn.elu(x))
 
-
-# (3) initialize weights with stddev sqrt(1/n)
-# e.g. use:
 initializer = layers.variance_scaling_initializer(factor=1.0, mode='FAN_IN')
 
-
-# (4) use this dropout
 def dropout_selu(x, rate, alpha= -1.7580993408473766, fixedPointMean=0.0, fixedPointVar=1.0,
                  noise_shape=None, seed=None, name=None, training=False):
-    """Dropout to a value with rescaling."""
-
+  
     def dropout_selu_impl(x, rate, alpha, noise_shape, seed, name):
         keep_prob = 1.0 - rate
         x = ops.convert_to_tensor(x, name="x")
