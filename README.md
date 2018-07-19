@@ -1,26 +1,24 @@
 # Self-Normalizing Networks
 Implementations based on "Self-normalizing networks"(SNNs) as suggested by Günter Klambauer, Thomas Unterthiner, Andreas Mayr - Purpose: Learning
 
-Self Normalising Neural Networks
-
-Objective : Understanding the core concept of Self-Normalizing NNs, their composition and detailed study of the research paper
+### Objective : Understanding the core concept of Self-Normalizing NNs, their composition and detailed study of the research paper
 
 Shortcomings of current deep learning architectures:
 1.	FNNs i.e the feed-forward neural networks that perform well are typically shallow and, therefore cannot exploit many levels of abstract representations.
 2.	Success stories of Deep Learning with standard feed-forward neural networks (FNNs) are rare.
 
-Solution proposed:
+## Solution proposed:
 Introduction of self-normalising neural networks (SNNs) to enable high-level abstract representations. Neuron activations of SNNs automatically converge towards zero mean and unit variance. The activation function of SNNs are "scaled exponential linear units" (SELUs), which induce self-normalising properties. As proved in the appendix attached in the paper in disussion, activations close to zero mean and unit variance that are propagated through many network layers will converge towards zero mean and unit variance even if noise is present, providing the following advantages due to convergence property of SNNs:
 •	Train deep networks with many layers
 •	Employ strong regularization
 •	Furthermore, for activations not close to unit variance, an upper and lower bound on the variance has been proved, thus, vanishing and exploding gradients are impossible.
 
-Implementation/ Analysis Notes:
+## Implementation/ Analysis Notes:
 1.	Analysed the implementations in the official repository of the paper in discussion and recognised differences by making changes in activation functions and combinations of fully connected and pooling layers.
 2.	 Difference in various normalization techniques:
-		i.  Batch normalization - to normalize neuron activations to zero mean and unit variance
-    ii. Layer normalization - also ensures zero mean and unit variance
-    iii. Weight normalization - ensures zero mean and unit variance if in the previous layer the activations have zero mean and unit variance
+	i.  Batch normalization - to normalize neuron activations to zero mean and unit variance
+	ii. Layer normalization - also ensures zero mean and unit variance
+	iii. Weight normalization - ensures zero mean and unit variance if in the previous layer the activations have zero mean and unit variance
 3.	 Training with normalization techniques is perturbed by stochastic gradient descent (SGD), stochastic regularization (like dropout), and the estimation of the normalization parameters. Both RNNs and CNNs can stabilize learning via weight sharing, therefore they are less prone to these perturbations. In contrast, FNNs trained with normalization techniques suffer from these perturbations and have high variance in the training error. Furthermore, strong regularization, such as dropout, is not possible as it would further increase the variance which in turn would lead to divergence of the learning process, thus leading to FNNs less success rate.
 4.	 Normalization techniques like batch, layer, or weight normalization ensure a mapping g that keeps (µ, ν) and (˜µ, ν˜) close to predefined values, typically (0, 1).
 5.	 A single activation y = f(z) has net input z = wT x. For n units with activation xi , 1 <= i<= n in the lower layer, we define n times the mean of the weight vector w ∈R^n as ω := sigma(wi) =1 wi and n times the second moment as τ := sigma(w^2) .Definition of Self-Normalizing Neural Net: A neural network is self-normalizing if it possesses a mapping g : Ω→Ω for each activation y that maps mean and variance from one layer to the next and has a stable and attracting fixed point depending on (ω, τ ) in Ω. Furthermore, the mean and the variance remain in the domain Ω, that is g(Ω) ⊆Ω, where Ω = {(µ, ν) | µ ∈ [µmin, µmax], ν ∈ [νmin, νmax]}. When iteratively applying the mapping g, each point within Ω converges to this fixed point.
@@ -34,15 +32,14 @@ Implementation/ Analysis Notes:
          (4) a continuous curve
 10.	 Activation function is made by multiplying the exponential linear unit (ELU) with λ > 1 to ensure a slope larger than one for positive net inputs.
 11.	The net input z is a weighted sum of independent, but not necessarily identically distributed variables xi , for which the central limit theorem (CLT) states that z approaches a normal distribution: z ∼ N (µω, √ ντ ) with density pN(z; µω, √ ντ ). The function g maps the mean and variance of activations in the lower layer to the mean µ˜ = E(y) and variance ν˜ = Var(y) of the activations y in the next layer:
-
-
- 
+![image](https://user-images.githubusercontent.com/16400217/42956550-de083918-8b9d-11e8-9de7-c6aa92475fcf.png)
 
 12.	 Given a set y=f(x) of n equations in n variables x1,….xn, written explicitly as
- 
+ ![image](https://user-images.githubusercontent.com/16400217/42956620-172910e6-8b9e-11e8-94a4-c62a6537e953.png)
 or more explicitly as
- 
+![image](https://user-images.githubusercontent.com/16400217/42956659-31fdf0da-8b9e-11e8-9e39-b92fb1ab8078.png)
 the Jacobian matrix, sometimes simply called "the Jacobian" (Simon and Blume 1994) is defined by
+ ![image](https://user-images.githubusercontent.com/16400217/42956701-4ed9faaa-8b9e-11e8-8853-6c653a5ce231.png)
  
 13.	 Stable and Attracting Fixed Point (0, 1) for Normalized Weights: µ˜ = µ = 0 and ν˜ = ν = 1: The analytical expressions for α and λ are generated from as per integration in pt. 11. The point of interest is whether the fixed point (µ, ν) = (0, 1) is stable and attracting. If the Jacobian of g has a norm smaller than 1 at the fixed point, then g is a contraction mapping and the fixed point is stable.  This calculation as shown in the paper proves it to be stable.
 14.	 Stable and Attracting Fixed Points for Unnormalized Weights -  (Task to do- Not picked up yet)
@@ -59,15 +56,15 @@ Above mentioned drawbacks are curbed via Self-normalizing neural networks (SNNs)
 
 
 ## CONTENTS:
-## KERAS CNN scripts:
+### KERAS CNN scripts:
 - KERAS: Convolutional Neural Network on MNIST
 - KERAS: Convolutional Neural Network on CIFAR10
 
-## Basic python functions to implement SNNs
+### Basic python functions to implement SNNs
 are provided here: selu.py
 
-## In order to reproduce Figure1 in the paper
+### In order to reproduce Figure1 in the paper
 Code snippets are provided here: Figure1
 
-## Basic Implementation
+### Basic Implementation
 Referred various sources and tutorials of pytorch to manipulate and implement functions
